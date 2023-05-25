@@ -36,8 +36,8 @@ class _LocationScreenState extends State<LocationScreen> {
       double temp = weatherData['main']['temp'];
       temperature = temp.toInt();
       int condition = weatherData['weather'][0]['id'];
-      weatherMessage = weather.getMessage(temperature);
-      weatherIcon = weather.getWeatherIcon(condition);
+      // weatherMessage = weather.getMessage(temperature);
+      // weatherIcon = weather.getWeatherIcon(condition);
       cityName = weatherData['name'];
     });
   }
@@ -65,25 +65,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       size: 50.0,
                     ),
                   ),
-                  TextButton(
-                    onPressed: () async {
-                      var typedName = await Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return CityScreen();
-                        }),
-                      );
-                      if (typedName != null) {
-                        var weatherData =
-                            await weather.getCityWeather(typedName);
-                        updateUI(weatherData);
-                      }
-                    },
-                    child: Icon(
-                      Icons.location_city,
-                      size: 50.0,
-                    ),
-                  ),
+                  
                 ],
               ),
               Padding(
