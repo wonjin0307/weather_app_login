@@ -30,11 +30,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    # geolcactor (지리 위치) 패키지 설치
+  
+  # geolcactor (지리 위치) 패키지 설치
   geolocator: ^9.0.2
   http: ^0.13.6
   flutter_spinkit: ^5.2.0
   intl: ^0.18.1
+  flutter_svg: ^2.0.6
+  timer_builder: ^2.0.0
+  
   
 module:
   androidX: true
@@ -67,9 +71,12 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/
+    - assets/weather_icon/
+    - assets/expression/
+    - assets/setting/
+    - assets/image/microdust_inform_background2.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

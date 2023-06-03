@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'location_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutterapp/method/weather.dart';
+import 'package:flutterapp/screen/weather_screen.dart';
 
 class LoadingScreen extends StatefulWidget{
   const LoadingScreen({super.key});
@@ -32,12 +32,19 @@ class _LoadingScreenState extends State<LoadingScreen>{
     var parseCurrentWeatherData = weatherData[2];
     var parseSuperShortWeatherData = weatherData[3];
     var parseAirConditionData = weatherData[4];
+    var parseAddData = weatherData[5];
 
-    // Navigator.push(
-    //   context,MaterialPageRoute(builder: (context){
-    //     return LocationScreen(locationWeather: weatherData);
-    //   }),
-    // );
+    // ignore: use_build_context_synchronously
+    Navigator.push(
+      context,MaterialPageRoute(builder: (context){
+        return WeatherScreen(star2amData: parse2amData,
+        starShortTermWeatherData: parseShortTermWeatherData,
+        starCurrentWeatherData: parseCurrentWeatherData,
+        starSuperShortWeatherData: parseSuperShortWeatherData,
+        starAirConditionData: parseAirConditionData,
+        starAddrData:  parseAddData);
+      }),
+    );
   }
 
   @override

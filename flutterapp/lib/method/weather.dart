@@ -1,16 +1,18 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutterapp/screen/loading_screen.dart';
 import 'package:intl/intl.dart';
 import '../method/location.dart';
 import 'package:flutterapp/method/networking.dart';
+import 'package:http/http.dart' as http;
 
 // 외부 날씨 APIKEY
 // 날씨 오픈 API를 가져오기위한 URL부분을 openWeatherMapURL에 할당한다. API를 사용할때마다 이부분을 반복적으로 사용해야되니깐
 // 변수지정을 해줬다.
 const apiKey = '9wZ%2BrDU8Rw9aGoABTm8p6z3qEOHzGQIcxScp0YEj%2FdRlKNreVbpR2QNFbYWB%2F%2B6CGT3PhJKUMclAZ59a5JV2mA%3D%3D';
 
-// const kakaoApiKey = '9cc0f83bb5119f7f7a401f465153f498';
+const kakaoApiKey = '9cc0f83bb5119f7f7a401f465153f498';
 
 
 class WeatherModel{
@@ -143,6 +145,33 @@ class WeatherModel{
       }
     }
 
+    //카카오맵 역지오코딩
+    var kakaoGeoUrl = Uri.parse('https://dapi.kakao.com/v2/local/geo/coord2address.json?x=$userLongi&y=$userLati&input_coord=WGS84');
+    var kakaoGeo = await http.get(kakaoGeoUrl, headers: {"Authorization": "KakaoAK $kakaoApiKey"});
+    //json data
+    String addr = kakaoGeo.body;
+
+
+    //카카오맵 좌표계 변환
+    var kakaoXYUrl = Uri.parse('https://dapi.kakao.com/v2/local/geo/transcoord.json?'
+        'x=$userLongi&y=$userLati&input_coord=WGS84&output_coord=TM');
+    var kakaoTM = await http.get(kakaoXYUrl, headers: {"Authorization": "KakaoAK $kakaoApiKey"});
+    var TM = jsonDecode(kakaoTM.body);
+    tm_x = TM['documents'][0]['x'];
+    tm_y = TM['documents'][0]['y'];
+
+    //근접 측정소
+    var closeObs = 'http://apis.data.go.kr/B552584/MsrstnInfoInqireSvc/getNearbyMsrstnList?'
+        'tmX=$tm_x&tmY=$tm_y&returnType=json&serviceKey=$apiKey';
+    http.Response responseObs = await http.get(Uri.parse(closeObs));
+    if(responseObs.statusCode == 200) {
+      obsJson = jsonDecode(responseObs.body);
+    }
+    obs = obsJson['response']['body']['items'][0]['stationName'];
+    print(obsJson);
+    print('측정소: $obs');
+
+
     //오늘 최저 기온
     String today2am = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?'
         'serviceKey=$apiKey&numOfRows=1000&pageNo=1&'
@@ -179,10 +208,11 @@ class WeatherModel{
     var currentWeatherData = await network.currentWeatherData();
     var superShortWeatherData = await network.veryShortWeatherData();
     var airConditionData = await network.airConditionData();
+    var addData = jsonDecode(addr);
 
     // 외부 API 에서 가져온 데이터 (일기예보,미세먼지)를 디코딩한 각 변수들을 Weathers에 넣어서
     // 배열형태로 리턴해준다. ( 여러개의 값들을 리턴해주고싶었는데, provider에 대한 개념을 완벽하게 익히지 못해서 사용했다.)
-    Weathers = [today2amData,shortTermWeatherData,currentWeatherData,superShortWeatherData,airConditionData];
+    Weathers = [today2amData,shortTermWeatherData,currentWeatherData,superShortWeatherData,airConditionData,addData];
     return Weathers;
   }
 }

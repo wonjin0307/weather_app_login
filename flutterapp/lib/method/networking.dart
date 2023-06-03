@@ -38,7 +38,7 @@ class Network{
   //단기예보
   Future <dynamic> shortTermWeatherData() async{
     http.Response response = await http.get(
-      Uri.parse(today2amUrl),
+      Uri.parse(shortTermWeatherUrl),
     );
     if (response.statusCode == 200){
     String data = response.body;
@@ -52,7 +52,7 @@ class Network{
   //초단기 실황
   Future <dynamic> currentWeatherData() async{
     http.Response response = await http.get(
-      Uri.parse(today2amUrl),
+      Uri.parse(currentWeatherUrl),
     );
     if (response.statusCode == 200){
     String data = response.body;
@@ -66,7 +66,7 @@ class Network{
   //초단기 예보
   Future <dynamic>  veryShortWeatherData() async{
     http.Response response = await http.get(
-      Uri.parse(today2amUrl),
+      Uri.parse(superShortWeatherUrl),
     );
     if (response.statusCode == 200){
     String data = response.body;
@@ -80,7 +80,7 @@ class Network{
   //에어코리아 
   Future <dynamic> airConditionData() async{
     http.Response response = await http.get(
-      Uri.parse(today2amUrl),
+      Uri.parse(airConditionUrl),
     );
     if (response.statusCode == 200){
     String data = response.body;
