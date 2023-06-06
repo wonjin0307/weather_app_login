@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 
+
+// SvgPicture.network() 함수를 사용하여 외부네트워크에 있는 이미지를 표시한다. (노트북 용량이 부족하다 ..)
 class Model {
   Widget? getSkyIcon(String sky, String pty, double wSize, double hSize, String now) {
     int time = int.parse(now);

@@ -76,7 +76,8 @@ flutter:
     - assets/weather_icon/
     - assets/expression/
     - assets/setting/
-    - assets/image/microdust_inform_background2.jpg
+    - assets/image/microdust_inform_background_white.jpg
+    - assets/image/microdust_inform_background_black.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
