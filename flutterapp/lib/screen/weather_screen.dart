@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutterapp/style/model.dart';
 import 'package:timer_builder/timer_builder.dart';
+import 'login_screen.dart';
 
 class WeatherScreen extends StatefulWidget {
   WeatherScreen(
@@ -132,17 +133,25 @@ class _WeatherScreenState extends State<WeatherScreen> {
         widget.starAirConditionData,
         widget.starAddrData);
   }
-
-  void weatherTime() {
-    if (now.hour < 3) {
-      next1 = '0300';
-      next2 = '0400';
-      next3 = '0500';
-      next4 = '0600';
-      next5 = '0700';
-      next6 = '0800';
-      next7 = '0900';
-      next8 = '1000';
+void weatherTime() {
+    if (now.hour < 2) {
+      next1 = '0200';
+      next2 = '0300';
+      next3 = '0400';
+      next4 = '0500';
+      next5 = '0600';
+      next6 = '0700';
+      next7 = '0800';
+      next8 = '0900';
+    } else if (now.hour < 4) {
+      next1 = '0400';
+      next2 = '0500';
+      next3 = '0600';
+      next4 = '0700';
+      next5 = '0800';
+      next6 = '0900';
+      next7 = '1000';
+      next8 = '1100';
     } else if (now.hour < 6) {
       next1 = '0600';
       next2 = '0700';
@@ -152,15 +161,24 @@ class _WeatherScreenState extends State<WeatherScreen> {
       next6 = '1100';
       next7 = '1200';
       next8 = '1300';
-    } else if (now.hour < 9) {
-      next1 = '0900';
-      next2 = '1000';
-      next3 = '1100';
-      next4 = '1200';
-      next5 = '1300';
-      next6 = '1400';
-      next7 = '1500';
-      next8 = '1600';
+    } else if (now.hour < 8) {
+      next1 = '0800';
+      next2 = '0900';
+      next3 = '1000';
+      next4 = '1100';
+      next5 = '1200';
+      next6 = '1300';
+      next7 = '1400';
+      next8 = '1500';
+    } else if (now.hour < 10) {
+      next1 = '1000';
+      next2 = '1100';
+      next3 = '1200';
+      next4 = '1300';
+      next5 = '1400';
+      next6 = '1500';
+      next7 = '1600';
+      next8 = '1700';
     } else if (now.hour < 12) {
       next1 = '1200';
       next2 = '1300';
@@ -170,15 +188,24 @@ class _WeatherScreenState extends State<WeatherScreen> {
       next6 = '1700';
       next7 = '1800';
       next8 = '1900';
-    } else if (now.hour < 15) {
-      next1 = '1500';
-      next2 = '1600';
-      next3 = '1700';
-      next4 = '1800';
-      next5 = '1900';
-      next6 = '2000';
-      next7 = '2100';
-      next8 = '2200';
+    } else if (now.hour < 14) {
+      next1 = '1400';
+      next2 = '1500';
+      next3 = '1600';
+      next4 = '1700';
+      next5 = '1800';
+      next6 = '1900';
+      next7 = '2000';
+      next8 = '2100';
+    } else if (now.hour < 16) {
+      next1 = '1600';
+      next2 = '1700';
+      next3 = '1800';
+      next4 = '1900';
+      next5 = '2000';
+      next6 = '2100';
+      next7 = '2200';
+      next8 = '2300';
     } else if (now.hour < 18) {
       next1 = '1800';
       next2 = '1900';
@@ -188,15 +215,24 @@ class _WeatherScreenState extends State<WeatherScreen> {
       next6 = '2300';
       next7 = '0000';
       next8 = '0100';
-    } else if (now.hour < 21) {
-      next1 = '2100';
-      next2 = '2200';
-      next3 = '2300';
-      next4 = '0000';
+    } else if (now.hour < 20) {
+      next1 = '2000';
+      next2 = '2100';
+      next3 = '2200';
+      next4 = '2300';
       next5 = '0000';
       next6 = '0100';
       next7 = '0200';
       next8 = '0300';
+    }else if (now.hour < 22) {
+      next1 = '2200';
+      next2 = '2300';
+      next3 = '0000';
+      next4 = '0100';
+      next5 = '0200';
+      next6 = '0300';
+      next7 = '0400';
+      next8 = '0500';
     } else {
       next1 = '0000';
       next2 = '0100';
@@ -208,9 +244,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
       next8 = '0700';
     }
     print('$next1 $next2 $next3 $next4 $next5 $next6 $next7 ');
-    
   }
-
   String? timeDesc(next) {
     if (next == '0000') {
       return '0시';
@@ -614,26 +648,15 @@ class _WeatherScreenState extends State<WeatherScreen> {
         elevation: 0.0, //그림자 농도
         leading: IconButton(
           icon: SvgPicture.asset(
-            'assets/setting/Orion_pin.svg',
+            'assets/setting/Orion_profile-picture.svg',
             width: 35.0,
             height: 35.0,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) => login_screen()));
+          },
         ),
-        actions: [
-          IconButton(
-            icon: SvgPicture.asset(
-              'assets/setting/Orion_menu.svg',
-              width: 35.0,
-              height: 35.0,
-            ),
-            onPressed: () {
-              // Navigator.push(context,
-              // MaterialPageRoute(builder: (BuildContext context) => Setting()));
-            },
-            iconSize: 30.0,
-          )
-        ],
       ),
       body: Container(
           // Stack을 사용해서 이미지를 배경 화면으로 설정하고 그 위에
@@ -1508,21 +1531,12 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                             SizedBox(
                                               height: 10,
                                             ),
-                                            Row(
-                                                children: [
-                                                  SvgPicture.asset(
-                                                    'assets/weather_icon/humidity.svg',
-                                                    width: 30.0,
-                                                    height: 30.0,
-                                                  ),
-                                                  Text('$currentREH%',
-                                                    style: TextStyle(
-                                                        fontFamily: 'tmon',
-                                                        fontSize: 14.0,
-                                                        color: Colors.white
-                                                  ),
-                                                ),
-                                              ],
+                                            Text('$currentREH%',
+                                                  style: TextStyle(
+                                                  fontFamily: 'tmon',
+                                                  fontSize: 15.0,
+                                                  color: Colors.blueAccent
+                                              ),
                                             ),
                                             SizedBox(
                                               height: 10,
