@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutterapp/style/constatns.dart';
 import 'package:flutterapp/method/weather.dart';
@@ -6,6 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutterapp/style/model.dart';
 import 'package:timer_builder/timer_builder.dart';
+import '../models/user_cubit.dart';
+import '../models/user_models.dart';
 import 'login_screen.dart';
 
 class WeatherScreen extends StatefulWidget {
@@ -59,6 +62,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   String? where; //인천, 서울과 같은 큰 특별시 명칭
   String? si; //시
   String? addr; //동
+
 
   //시간대별 날씨 변수
   var next1, next2, next3, next4,
@@ -283,7 +287,7 @@ void weatherTime() {
       dynamic addrData) {
 
 
-    print(today2amData);
+    
     today = DateFormat('yyyyMMdd').format(now);
     tmr = DateFormat('yyyyMMdd').format(now.add(Duration(days: 1)));
     df_tmr = DateFormat('yyyyMMdd').format(now.add(Duration(days: 2)));
@@ -352,8 +356,7 @@ void weatherTime() {
     //내일, 모레 최고 최저 온도
     String timeHHString = timeHH.toString();
     int totalCount2 = shortTermWeatherData['response']['body']['totalCount'];
-    print('_______________________________________________');
-    print(shortTermWeatherData['response']['body']['items']['item']);
+    
 
 
     weatherTime();
@@ -638,12 +641,21 @@ void weatherTime() {
     si = addrData['documents'][0]['address']['region_2depth_name'];
     addr = addrData['documents'][0]['address']['region_3depth_name'];
   }
-
+// 
+  dynamic Abs = "로";
+  dynamic Bbs = "그인";
   @override
   Widget build(BuildContext context) {
+    User user = context.read<UserCubit>().state;
+    
+    if(user.first_name!=null){
+      Abs = user.first_name;
+      Bbs = user.last_name;
+    }
     return Scaffold(
       extendBodyBehindAppBar: true, //body 높이를 scaffold의 top까지 확장
       appBar: AppBar(
+        title: Text("$Abs$Bbs"),
         backgroundColor: Colors.transparent, //appBar 투명색
         elevation: 0.0, //그림자 농도
         leading: IconButton(
@@ -654,11 +666,15 @@ void weatherTime() {
           ),
           onPressed: () {
             Navigator.push(context,
-              MaterialPageRoute(builder: (BuildContext context) => login_screen()));
+              MaterialPageRoute(builder: (context) => SignInPage()))
+                  .then((value) {
+                setState(() {});
+              });
           },
         ),
       ),
       body: Container(
+        
           // Stack을 사용해서 이미지를 배경 화면으로 설정하고 그 위에
           // 컨테이너를 겹치는 모습으로 보이게하기위해 stack을 사용.
           child: Stack(children: [
@@ -893,7 +909,7 @@ void weatherTime() {
                               opacity: 200),
                             ),
                             width: double.infinity,
-                            height: 16, // 가로 길이를 화면 양끝으로 꽉차게 하기.
+                            height: 12, // 가로 길이를 화면 양끝으로 꽉차게 하기.
                             child: Row(                
                               children: [
                                 Text('시간대별 날씨',

@@ -231,7 +231,7 @@ class WeatherModel {
     var superShortWeatherData = await network.veryShortWeatherData();
     var airConditionData = await network.airConditionData();
     var addData = jsonDecode(addr);
-    print(addData);
+    // print(addData);
 
     // 외부 API 에서 가져온 데이터 (일기예보,미세먼지)를 디코딩한 각 변수들을 Weathers에 넣어서
     // 배열형태로 리턴해준다. ( 여러개의 값들을 리턴해주고싶었는데, provider에 대한 개념을 완벽하게 익히지 못해서 사용했다.)

@@ -1,6 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterapp/models/user_cubit.dart';
 import 'package:flutterapp/screen/loading_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'models/user_models.dart';
 
 // const를 사용하면 어떠한 경우에도 해당 값이 바뀌지 않음을 나타낸다. 
 // 사실 사용을 안해도 경고문이 나와서 빌드가 가능하지만
@@ -15,7 +20,9 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
     PointerDeviceKind.mouse,
   };
 }
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   runApp(MyApp());
 }
 
@@ -23,12 +30,17 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // 상속 받은 메소드를 재정의 할때 사용하는 @override
+  // 메인 전체를 blocprovider로 묶어서 하위 페이지에서 전체적으로 적용
+  // 즉 User()를 전체 페이지에서 공유하여 사용가능한것.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return BlocProvider(
+      create: (context) => UserCubit(User()),
+      child: MaterialApp(
       theme:ThemeData.dark(),
       scrollBehavior: MyCustomScrollBehavior(),
       home: const LoadingScreen(),
+      ),
     );
   }
 }
