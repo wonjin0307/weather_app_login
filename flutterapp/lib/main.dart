@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => UserCubit(User()),
       child: MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme:ThemeData.dark(),
       scrollBehavior: MyCustomScrollBehavior(),
       home: const LoadingScreen(),
